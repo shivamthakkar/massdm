@@ -58,17 +58,9 @@ class DMallCommand extends commando.Command {
         for (var i = 0; i < membercount; i++) {
             let member = memberarray[i];
             if (member.user.bot) {
-                console.log(`Skipping bot with name ${member.user.username}`)
+                message.channel.send(`Skipping bot with name ${member.user.username}`)
                 botcount++;
                 continue
-            }
-            if (member.user.id == 180449801400352768) { 
-                console.log(`6669 Detected in your server, stopping command.`)
-                const embed = new Discord.RichEmbed()
-                    .addField(":x: Failed to send", "<@660882192725049344> detected in this server.")
-                    .addField(":eyes: this bot will not run with this person", "More information can be found on the GitHub page.");
-                message.channel.send({ embed: embed });
-                return; 
             }
             let timeout = Math.floor((Math.random() * (config.wait - 0.01)) * 1000) + 10;
             await sleep(timeout);
@@ -78,13 +70,13 @@ class DMallCommand extends commando.Command {
                 console.log(`Waited ${timeout}ms.\t|${i + 1}|\tDMing ${member.user.username}`);
             }
             try {
-                member.send(`${msg} \n #${timeout}`);
+                member.send(`${msg}`);
                 successcount++;
             } catch (error) {
-                console.log(`Failed to send DM! ` + error)
+                message.channel.send(`Failed to send DM! ` + error)
             }
         }
-        console.log(`Sent ${successcount} ${(successcount != 1 ? `messages` : `message`)} successfully, ` +
+        message.channel.send(`Sent ${successcount} ${(successcount != 1 ? `messages` : `message`)} successfully, ` +
             `${botcount} ${(botcount != 1 ? `bots were` : `bot was`)} skipped.`);
     }
 }
